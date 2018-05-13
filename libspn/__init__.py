@@ -16,6 +16,7 @@ from libspn.graph.node import VarNode
 from libspn.graph.node import ParamNode
 from libspn.graph.ivs import IVs
 from libspn.graph.contvars import ContVars
+from libspn.graph.raw_input import RawInput
 from libspn.graph.concat import Concat
 from libspn.graph.sum import Sum
 from libspn.graph.product import Product
@@ -100,7 +101,7 @@ from libspn.exceptions import StructureError
 __all__ = [
     # Graph
     'Scope', 'Input', 'Node', 'ParamNode', 'OpNode', 'VarNode',
-    'Concat', 'IVs', 'ContVars', 'Sum', 'Product',
+    'Concat', 'IVs', 'ContVars', 'RawInput', 'Sum', 'Product',
     'Weights', 'assign_weights', 'initialize_weights',
     'serialize_graph', 'deserialize_graph',
     'Saver', 'Loader', 'JSONSaver', 'JSONLoader',
