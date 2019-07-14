@@ -26,12 +26,13 @@ class HardEMLearning:
     def __init__(self, root, mpe_path=None, log=True, value_inference_type=None,
                  additive_smoothing=None, initial_accum_value=1.0,
                  use_unweighted=False, sample_winner=False, sample_prob=None,
-                 matmul_or_conv=False):
+                 matmul_or_conv=False, l0_prior_factor=None):
         self._root = root
         self._log = log
         self._additive_smoothing = additive_smoothing
         self._initial_accum_value = initial_accum_value
         self._sample_winner = sample_winner
+        self._l0_prior_factor = l0_prior_factor
         # Create internal MPE path generator
         if mpe_path is None:
             self._mpe_path = MPEPath(
@@ -88,7 +89,11 @@ class HardEMLearning:
                 with tf.name_scope(pn.name_scope):
                     counts_summed_batch = pn.node._compute_hard_em_update(
                         self._mpe_path.counts[pn.node])
-                    assign_ops.append(tf.assign_add(pn.accum, counts_summed_batch))
+                    if self._l0_prior_factor is not None:
+                        counts_summed_batch = tf.subtract(
+                            counts_summed_batch, self._l0_prior_factor, "L0Prior")
+                    updated_counts = tf.nn.relu(pn.accum + counts_summed_batch)
+                    assign_ops.append(tf.assign(pn.accum, updated_counts))
 
             for dn in self._loc_scale_leaf_nodes:
                 with tf.name_scope(dn.name_scope):
