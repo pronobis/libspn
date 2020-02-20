@@ -1,3 +1,5 @@
+This repository hosts an independent LibSPN implementation utilizing TensorFlow 1.x. For an alpha version of LibSPN integrated with Keras and compatible with Tensorflow 2.x, see [libspn-keras](https://github.com/pronobis/libspn-keras).
+
 
 # LibSPN
 
